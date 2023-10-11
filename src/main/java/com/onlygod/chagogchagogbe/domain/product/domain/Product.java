@@ -73,4 +73,9 @@ public class Product {
         this.bCount = bCount;
         this.user = user;
     }
+
+    public Product addCount(Integer count) {
+        this.count += count;
+        return this;
+    }
 }
