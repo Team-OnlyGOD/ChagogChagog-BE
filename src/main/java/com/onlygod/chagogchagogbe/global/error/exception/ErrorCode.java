@@ -12,8 +12,10 @@ public enum ErrorCode {
     EXPIRED_TOKEN(401, "Token Expired"),
     INVALID_TOKEN(401, "Invalid Token"),
     INVALID_PASSWORD(401, "Invalid Password"),
+    INVALID_PRODUCT(401, "Invalid Product"),
 
     USER_NOT_FOUND(404, "User Not Found"),
+    PRODUCT_NOT_FOUND(404, "Product Not Found"),
 
     USER_ALREADY_EXISTS(409, "User Already Exists");
 
