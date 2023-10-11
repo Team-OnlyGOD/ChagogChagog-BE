@@ -43,14 +43,15 @@ public class Product {
     @Column(columnDefinition = "BIGINT")
     private Long price;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "CHAR(1)")
     private ABCType abcType;
 
-    @NotNull
     @Column(columnDefinition = "INT")
     private Integer aDate;
+
+    @Column(columnDefinition = "INT")
+    private Integer bCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -60,12 +61,13 @@ public class Product {
     private final List<IncomingProduct> incomingProducts = new ArrayList<>();
 
     @Builder
-    public Product(String name, Integer count, Long price, ABCType abcType, Integer aDate, User user) {
+    public Product(String name, Integer count, Long price, ABCType abcType, Integer aDate, Integer bCount, User user) {
         this.name = name;
         this.count = count;
         this.price = price;
         this.abcType = abcType;
         this.aDate = aDate;
+        this.bCount = bCount;
         this.user = user;
     }
 }
