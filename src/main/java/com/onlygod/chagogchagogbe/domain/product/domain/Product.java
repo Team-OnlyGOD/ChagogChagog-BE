@@ -60,6 +60,9 @@ public class Product {
     @OneToMany(mappedBy = "product", orphanRemoval = true)
     private final List<IncomingProduct> incomingProducts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product", orphanRemoval = true)
+    private final List<OutgoingProduct> outgoingProducts = new ArrayList<>();
+
     @Builder
     public Product(String name, Integer count, Long price, ABCType abcType, Integer aDate, Integer bCount, User user) {
         this.name = name;
