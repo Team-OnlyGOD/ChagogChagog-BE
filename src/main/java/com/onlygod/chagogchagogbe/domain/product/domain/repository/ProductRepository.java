@@ -2,6 +2,7 @@ package com.onlygod.chagogchagogbe.domain.product.domain.repository;
 
 import com.onlygod.chagogchagogbe.domain.product.domain.IncomingProduct;
 import com.onlygod.chagogchagogbe.domain.product.domain.Product;
+import com.onlygod.chagogchagogbe.domain.product.exception.ProductNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -18,5 +19,10 @@ public class ProductRepository {
 
     public IncomingProduct saveIncomingProduct(IncomingProduct incomingProduct) {
         return incomingProductJpaRepository.save(incomingProduct);
+    }
+
+    public Product queryProductById(Long id) {
+        return productJpaRepository.findById(id)
+                .orElseThrow(() -> ProductNotFoundException.EXCEPTION);
     }
 }
