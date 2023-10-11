@@ -38,6 +38,7 @@ dependencies {
             "com.querydsl:querydsl-apt:5.0.0:jpa")
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
 }
 
 tasks.named('test') {
