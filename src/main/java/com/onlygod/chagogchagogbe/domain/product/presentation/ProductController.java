@@ -2,8 +2,10 @@ package com.onlygod.chagogchagogbe.domain.product.presentation;
 
 import com.onlygod.chagogchagogbe.domain.product.presentation.dto.request.CreateIncomingProductRequest;
 import com.onlygod.chagogchagogbe.domain.product.presentation.dto.request.CreateNewProductRequest;
+import com.onlygod.chagogchagogbe.domain.product.presentation.dto.request.CreateOutgoingProductRequest;
 import com.onlygod.chagogchagogbe.domain.product.service.CreateIncomingProductService;
 import com.onlygod.chagogchagogbe.domain.product.service.CreateNewProductService;
+import com.onlygod.chagogchagogbe.domain.product.service.CreateOutgoingProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,7 @@ public class ProductController {
 
     private final CreateNewProductService createNewProductService;
     private final CreateIncomingProductService createIncomingProductService;
+    private final CreateOutgoingProductService createOutgoingProductService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/new")
@@ -30,7 +33,7 @@ public class ProductController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/{product-id}")
+    @PostMapping("/incoming/{product-id}")
     public void createIncomingProduct(
             @PathVariable("product-id") Long productId,
             @RequestBody @Valid CreateIncomingProductRequest request
@@ -38,5 +41,12 @@ public class ProductController {
         createIncomingProductService.execute(productId, request);
     }
 
-
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/outgoing/{product-id}")
+    public void createOutgoingProduct(
+            @PathVariable("product-id") Long productId,
+            @RequestBody @Valid CreateOutgoingProductRequest request
+    ) {
+        createOutgoingProductService.execute(productId, request);
+    }
 }
