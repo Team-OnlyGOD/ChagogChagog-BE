@@ -24,3 +24,22 @@ jwt:
 
 server:
   port: 3030
+
+cloud:
+  aws:
+    stack:
+      auto: false
+    s3:
+      bucket: ${S3_BUCKET:chagog-store}
+    credentials:
+      access-key: ${AWS_ACCESS}
+      secret-key: ${AWS_SECRET}
+    region:
+      static: ${S3_REGION:ap-northeast-2}
+
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
