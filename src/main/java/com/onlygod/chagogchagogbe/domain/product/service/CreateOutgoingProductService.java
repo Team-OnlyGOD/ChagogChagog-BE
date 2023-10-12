@@ -1,5 +1,8 @@
 package com.onlygod.chagogchagogbe.domain.product.service;
 
+import com.onlygod.chagogchagogbe.domain.notice.domain.Notice;
+import com.onlygod.chagogchagogbe.domain.notice.domain.enums.NoticeStatus;
+import com.onlygod.chagogchagogbe.domain.notice.domain.repository.NoticeRepository;
 import com.onlygod.chagogchagogbe.domain.product.domain.OutgoingProduct;
 import com.onlygod.chagogchagogbe.domain.product.domain.Product;
 import com.onlygod.chagogchagogbe.domain.product.domain.enums.SaleStatus;
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CreateOutgoingProductService {
 
     private final ProductRepository productRepository;
+    private final NoticeRepository noticeRepository;
     private final UserFacade userFacade;
 
     @Transactional
@@ -27,6 +31,15 @@ public class CreateOutgoingProductService {
 
         if (!product.getUser().equals(user)) {
             throw InvalidProductException.EXCEPTION;
+        }
+
+        if (product.getSafetyCount() > (product.getCount() - request.getCount())) {
+            noticeRepository.saveNotice(
+                    Notice.builder()
+                            .product(product)
+                            .noticeStatus(NoticeStatus.ALMOST_SOLD_OUT)
+                            .build()
+            );
         }
 
         if ((product.getCount() - request.getCount()) < 0) {
