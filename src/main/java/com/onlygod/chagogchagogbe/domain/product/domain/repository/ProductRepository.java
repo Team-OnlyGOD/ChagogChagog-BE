@@ -5,6 +5,8 @@ import com.onlygod.chagogchagogbe.domain.product.domain.OutgoingProduct;
 import com.onlygod.chagogchagogbe.domain.product.domain.Product;
 import com.onlygod.chagogchagogbe.domain.product.domain.enums.ABCType;
 import com.onlygod.chagogchagogbe.domain.product.domain.enums.SaleStatus;
+import com.onlygod.chagogchagogbe.domain.product.domain.repository.vo.ProductCreatedAtVO;
+import com.onlygod.chagogchagogbe.domain.product.domain.repository.vo.QProductCreatedAtVO;
 import com.onlygod.chagogchagogbe.domain.product.domain.repository.vo.QQueryABCTypeProductsVO;
 import com.onlygod.chagogchagogbe.domain.product.domain.repository.vo.QQueryIncomingOutgoingProductsVO;
 import com.onlygod.chagogchagogbe.domain.product.domain.repository.vo.QQueryProductsVO;
@@ -47,6 +49,13 @@ public class ProductRepository {
     public Product queryProductById(Long id) {
         return productJpaRepository.findById(id)
                 .orElseThrow(() -> ProductNotFoundException.EXCEPTION);
+    }
+
+    public List<Product> queryProductsByIdIn(List<Long> ids) {
+        return queryFactory
+                .selectFrom(product)
+                .where(product.id.in(ids))
+                .fetch();
     }
 
     public OutgoingProduct saveOutgoingProduct(OutgoingProduct outgoingProduct) {
@@ -104,7 +113,7 @@ public class ProductRepository {
                 .on(
                         incomingProduct.product.id.eq(product.id),
                         incomingProduct.createdAt.eq(
-                                select(incomingProduct.createdAt.min())
+                                select(incomingProduct.createdAt.max())
                                         .from(incomingProduct)
                                         .where(incomingProduct.product.id.eq(product.id))
                         )
@@ -113,6 +122,29 @@ public class ProductRepository {
                         eqName(name),
                         product.user.id.eq(userId)
                 )
+                .fetch();
+    }
+
+    public List<ProductCreatedAtVO> queryProductCreatedAt() {
+        return queryFactory
+                .select(
+                        new QProductCreatedAtVO(
+                                product.id,
+                                product.aDate,
+                                incomingProduct.createdAt
+                        )
+                )
+                .from(product)
+                .join(product.incomingProducts, incomingProduct)
+                .on(
+                        incomingProduct.product.id.eq(product.id),
+                        incomingProduct.createdAt.eq(
+                                select(incomingProduct.createdAt.max())
+                                        .from(incomingProduct)
+                                        .where(incomingProduct.product.id.eq(product.id))
+                        )
+                )
+                .where(product.abcType.eq(ABCType.A))
                 .fetch();
     }
 
