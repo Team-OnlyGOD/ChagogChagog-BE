@@ -6,8 +6,10 @@ import com.onlygod.chagogchagogbe.domain.product.domain.Product;
 import com.onlygod.chagogchagogbe.domain.product.domain.enums.ABCType;
 import com.onlygod.chagogchagogbe.domain.product.domain.enums.SaleStatus;
 import com.onlygod.chagogchagogbe.domain.product.domain.repository.vo.QQueryABCTypeProductsVO;
+import com.onlygod.chagogchagogbe.domain.product.domain.repository.vo.QQueryIncomingOutgoingProductsVO;
 import com.onlygod.chagogchagogbe.domain.product.domain.repository.vo.QQueryProductsVO;
 import com.onlygod.chagogchagogbe.domain.product.domain.repository.vo.QueryABCTypeProductsVO;
+import com.onlygod.chagogchagogbe.domain.product.domain.repository.vo.QueryIncomingOutgoingProductsVO;
 import com.onlygod.chagogchagogbe.domain.product.domain.repository.vo.QueryProductsVO;
 import com.onlygod.chagogchagogbe.domain.product.exception.ProductNotFoundException;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -140,9 +142,55 @@ public class ProductRepository {
                 );
     }
 
+    public List<QueryIncomingOutgoingProductsVO> queryIncomingProducts(Long productId, Long userId) {
+        return queryFactory
+                .select(
+                        new QQueryIncomingOutgoingProductsVO(
+                                product.name,
+                                incomingProduct.createdAt,
+                                incomingProduct.count,
+                                incomingProduct.beforeCount
+                        )
+                )
+                .from(incomingProduct)
+                .join(incomingProduct.product, product)
+                .join(product.user, user)
+                .where(
+                        user.id.eq(userId),
+                        eqProductId(productId)
+                )
+                .orderBy(incomingProduct.createdAt.desc())
+                .fetch();
+    }
+
+    public List<QueryIncomingOutgoingProductsVO> queryOutgoingProducts(Long productId, Long userId) {
+        return queryFactory
+                .select(
+                        new QQueryIncomingOutgoingProductsVO(
+                                product.name,
+                                outgoingProduct.createdAt,
+                                outgoingProduct.count,
+                                outgoingProduct.beforeCount
+                        )
+                )
+                .from(outgoingProduct)
+                .join(outgoingProduct.product, product)
+                .join(product.user, user)
+                .where(
+                        user.id.eq(userId),
+                        eqProductId(productId)
+                )
+                .orderBy(outgoingProduct.createdAt.desc())
+                .fetch();
+    }
+
     //==conditions==//
 
     public BooleanExpression eqName(String name) {
         return name == null ? null : product.name.eq(name);
+    }
+
+    public BooleanExpression eqProductId(Long productId) {
+        return productId == null ? null : product.id.eq(productId);
     }
 }
