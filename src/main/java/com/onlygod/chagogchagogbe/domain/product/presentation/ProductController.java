@@ -4,12 +4,14 @@ import com.onlygod.chagogchagogbe.domain.product.presentation.dto.request.Change
 import com.onlygod.chagogchagogbe.domain.product.presentation.dto.request.CreateIncomingProductRequest;
 import com.onlygod.chagogchagogbe.domain.product.presentation.dto.request.CreateNewProductRequest;
 import com.onlygod.chagogchagogbe.domain.product.presentation.dto.request.CreateOutgoingProductRequest;
+import com.onlygod.chagogchagogbe.domain.product.presentation.dto.response.QueryABCTypeProductsResponse;
 import com.onlygod.chagogchagogbe.domain.product.presentation.dto.response.QueryProductsResponse;
 import com.onlygod.chagogchagogbe.domain.product.service.ChangeSaleStatusService;
 import com.onlygod.chagogchagogbe.domain.product.service.CreateIncomingProductService;
 import com.onlygod.chagogchagogbe.domain.product.service.CreateNewProductService;
 import com.onlygod.chagogchagogbe.domain.product.service.CreateOutgoingProductService;
 import com.onlygod.chagogchagogbe.domain.product.service.DivideABCTypeService;
+import com.onlygod.chagogchagogbe.domain.product.service.QueryABCTypeProductsService;
 import com.onlygod.chagogchagogbe.domain.product.service.QueryProductsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,7 @@ public class ProductController {
     private final DivideABCTypeService divideABCTypeService;
     private final ChangeSaleStatusService changeSaleStatusService;
     private final QueryProductsService queryProductsService;
+    private final QueryABCTypeProductsService queryABCTypeProductsService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/new")
@@ -78,5 +81,13 @@ public class ProductController {
             @RequestParam(value = "name", required = false) String name
     ) {
         return queryProductsService.execute(name);
+    }
+
+    @GetMapping("/abc_type")
+    public QueryABCTypeProductsResponse queryABCTypeProduct(
+            @RequestParam(value = "name", required = false) String name
+    ) {
+        return queryABCTypeProductsService.execute(name);
+
     }
 }
