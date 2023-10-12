@@ -6,8 +6,10 @@ import com.onlygod.chagogchagogbe.domain.product.presentation.dto.request.Create
 import com.onlygod.chagogchagogbe.domain.product.service.CreateIncomingProductService;
 import com.onlygod.chagogchagogbe.domain.product.service.CreateNewProductService;
 import com.onlygod.chagogchagogbe.domain.product.service.CreateOutgoingProductService;
+import com.onlygod.chagogchagogbe.domain.product.service.DivideABCTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +27,7 @@ public class ProductController {
     private final CreateNewProductService createNewProductService;
     private final CreateIncomingProductService createIncomingProductService;
     private final CreateOutgoingProductService createOutgoingProductService;
+    private final DivideABCTypeService divideABCTypeService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/new")
@@ -48,5 +51,11 @@ public class ProductController {
             @RequestBody @Valid CreateOutgoingProductRequest request
     ) {
         createOutgoingProductService.execute(productId, request);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/abc_type")
+    public void divideABCType() {
+        divideABCTypeService.execute();
     }
 }
