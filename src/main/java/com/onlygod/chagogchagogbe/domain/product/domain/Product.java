@@ -78,4 +78,9 @@ public class Product {
         this.count += count;
         return this;
     }
+
+    public Product subCount(Integer count) {
+        this.count -= count;
+        return this;
+    }
 }
