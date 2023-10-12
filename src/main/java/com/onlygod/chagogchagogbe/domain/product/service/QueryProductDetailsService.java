@@ -19,6 +19,7 @@ public class QueryProductDetailsService {
 
         return QueryProductDetailsResponse.builder()
                 .name(product.getName())
+                .imageUrl(product.getImageUrl())
                 .incomingPrice(product.getIncomingPrice())
                 .outgoingPrice(product.getOutgoingPrice())
                 .count(product.getCount())

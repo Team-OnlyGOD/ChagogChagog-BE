@@ -7,6 +7,7 @@ import lombok.Getter;
 @Builder
 public class QueryProductDetailsResponse {
     private final String name;
+    private final String imageUrl;
     private final Long incomingPrice;
     private final Long outgoingPrice;
     private final Integer count;
