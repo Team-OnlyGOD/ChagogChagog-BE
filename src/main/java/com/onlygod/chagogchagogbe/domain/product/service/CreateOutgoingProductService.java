@@ -2,6 +2,7 @@ package com.onlygod.chagogchagogbe.domain.product.service;
 
 import com.onlygod.chagogchagogbe.domain.product.domain.OutgoingProduct;
 import com.onlygod.chagogchagogbe.domain.product.domain.Product;
+import com.onlygod.chagogchagogbe.domain.product.domain.enums.SaleStatus;
 import com.onlygod.chagogchagogbe.domain.product.domain.repository.ProductRepository;
 import com.onlygod.chagogchagogbe.domain.product.exception.ProductCountNotEnoughException;
 import com.onlygod.chagogchagogbe.domain.product.presentation.dto.request.CreateOutgoingProductRequest;
@@ -25,6 +26,10 @@ public class CreateOutgoingProductService {
 
         if ((product.getCount() - request.getCount()) < 0) {
             throw ProductCountNotEnoughException.EXCEPTION;
+        }
+
+        if (product.getCount() - request.getCount() == 0) {
+            product.changeSaleStatus(SaleStatus.SOLD_OUT);
         }
 
         productRepository.saveOutgoingProduct(
