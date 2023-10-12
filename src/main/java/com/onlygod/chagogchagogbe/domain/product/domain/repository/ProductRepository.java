@@ -5,16 +5,21 @@ import com.onlygod.chagogchagogbe.domain.product.domain.OutgoingProduct;
 import com.onlygod.chagogchagogbe.domain.product.domain.Product;
 import com.onlygod.chagogchagogbe.domain.product.domain.enums.ABCType;
 import com.onlygod.chagogchagogbe.domain.product.domain.enums.SaleStatus;
+import com.onlygod.chagogchagogbe.domain.product.domain.repository.vo.QQueryProductsVO;
+import com.onlygod.chagogchagogbe.domain.product.domain.repository.vo.QueryProductsVO;
 import com.onlygod.chagogchagogbe.domain.product.exception.ProductNotFoundException;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.onlygod.chagogchagogbe.domain.product.domain.QIncomingProduct.incomingProduct;
 import static com.onlygod.chagogchagogbe.domain.product.domain.QOutgoingProduct.outgoingProduct;
 import static com.onlygod.chagogchagogbe.domain.product.domain.QProduct.product;
 import static com.onlygod.chagogchagogbe.domain.user.domain.QUser.user;
+import static com.querydsl.jpa.JPAExpressions.select;
 
 @RequiredArgsConstructor
 @Repository
@@ -72,5 +77,39 @@ public class ProductRepository {
                 .set(product.saleStatus, saleStatus)
                 .where(product.id.in(productIds))
                 .execute();
+    }
+
+    public List<QueryProductsVO> queryProductsByConditions(String name) {
+        return queryFactory
+                .select(
+                        new QQueryProductsVO(
+                                product.id,
+                                product.saleStatus,
+                                product.name,
+                                product.count,
+                                product.safetyCount,
+                                product.count,
+                                product.count,
+                                incomingProduct.createdAt
+                        )
+                )
+                .from(product)
+                .join(product.incomingProducts, incomingProduct)
+                .on(
+                        incomingProduct.product.id.eq(product.id),
+                        incomingProduct.createdAt.eq(
+                                select(incomingProduct.createdAt.min())
+                                        .from(incomingProduct)
+                                        .where(incomingProduct.product.id.eq(product.id))
+                        )
+                )
+                .where(eqName(name))
+                .fetch();
+    }
+
+    //==conditions==//
+
+    public BooleanExpression eqName(String name) {
+        return name == null ? null : product.name.eq(name);
     }
 }
