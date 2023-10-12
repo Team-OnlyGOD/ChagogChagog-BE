@@ -5,7 +5,9 @@ import com.onlygod.chagogchagogbe.domain.product.domain.OutgoingProduct;
 import com.onlygod.chagogchagogbe.domain.product.domain.Product;
 import com.onlygod.chagogchagogbe.domain.product.domain.enums.ABCType;
 import com.onlygod.chagogchagogbe.domain.product.domain.enums.SaleStatus;
+import com.onlygod.chagogchagogbe.domain.product.domain.repository.vo.QQueryABCTypeProductsVO;
 import com.onlygod.chagogchagogbe.domain.product.domain.repository.vo.QQueryProductsVO;
+import com.onlygod.chagogchagogbe.domain.product.domain.repository.vo.QueryABCTypeProductsVO;
 import com.onlygod.chagogchagogbe.domain.product.domain.repository.vo.QueryProductsVO;
 import com.onlygod.chagogchagogbe.domain.product.exception.ProductNotFoundException;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -19,6 +21,8 @@ import static com.onlygod.chagogchagogbe.domain.product.domain.QIncomingProduct.
 import static com.onlygod.chagogchagogbe.domain.product.domain.QOutgoingProduct.outgoingProduct;
 import static com.onlygod.chagogchagogbe.domain.product.domain.QProduct.product;
 import static com.onlygod.chagogchagogbe.domain.user.domain.QUser.user;
+import static com.querydsl.core.group.GroupBy.groupBy;
+import static com.querydsl.core.group.GroupBy.sum;
 import static com.querydsl.jpa.JPAExpressions.select;
 
 @RequiredArgsConstructor
@@ -79,7 +83,7 @@ public class ProductRepository {
                 .execute();
     }
 
-    public List<QueryProductsVO> queryProductsByConditions(String name) {
+    public List<QueryProductsVO> queryProductsByConditions(String name, Long userId) {
         return queryFactory
                 .select(
                         new QQueryProductsVO(
@@ -103,8 +107,37 @@ public class ProductRepository {
                                         .where(incomingProduct.product.id.eq(product.id))
                         )
                 )
-                .where(eqName(name))
+                .where(
+                        eqName(name),
+                        product.user.id.eq(userId)
+                )
                 .fetch();
+    }
+
+    public List<QueryABCTypeProductsVO> queryABCTypeProductsByConditions(String name, ABCType abcType, Long userId) {
+        return queryFactory
+                .selectFrom(product)
+                .join(product.outgoingProducts, outgoingProduct)
+                .groupBy(
+                        product.id,
+                        product.name,
+                        outgoingProduct.count
+                )
+                .where(
+                        eqName(name),
+                        product.abcType.eq(abcType),
+                        product.user.id.eq(userId)
+                )
+                .transform(
+                        groupBy(product.id)
+                                .list(
+                                        new QQueryABCTypeProductsVO(
+                                                product.id,
+                                                product.name,
+                                                sum(outgoingProduct.count)
+                                        )
+                                )
+                );
     }
 
     //==conditions==//
