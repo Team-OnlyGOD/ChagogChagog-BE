@@ -14,6 +14,9 @@ public class ChatBotService {
 
     @Transactional
     public ChatBotResponse execute(String request) {
-        return new ChatBotResponse(openAiUtil.getGPTAnswer(request));
+        return new ChatBotResponse(
+                openAiUtil.getGPTAnswer(request),
+                true
+        );
     }
 }

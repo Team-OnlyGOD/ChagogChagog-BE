@@ -7,4 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ChatBotResponse {
     private final String message;
+    private final boolean isChatBot;
 }
