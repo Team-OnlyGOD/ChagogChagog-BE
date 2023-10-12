@@ -30,6 +30,7 @@ public class CreateIncomingProductService {
         productRepository.saveIncomingProduct(
                 IncomingProduct.builder()
                         .count(request.getCount())
+                        .beforeCount(product.getCount())
                         .product(product)
                         .build()
         );

@@ -40,6 +40,7 @@ public class CreateOutgoingProductService {
         productRepository.saveOutgoingProduct(
                 OutgoingProduct.builder()
                         .count(request.getCount())
+                        .beforeCount(product.getCount())
                         .product(product)
                         .build()
         );

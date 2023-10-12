@@ -29,13 +29,18 @@ public class OutgoingProduct extends BaseTimeEntity {
     @Column(columnDefinition = "INT")
     private Integer count;
 
+    @NotNull
+    @Column(columnDefinition = "INT")
+    private Integer beforeCount;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     @Builder
-    public OutgoingProduct(Integer count, Product product) {
+    public OutgoingProduct(Integer count, Integer beforeCount, Product product) {
         this.count = count;
+        this.beforeCount = beforeCount;
         this.product = product;
     }
 }
