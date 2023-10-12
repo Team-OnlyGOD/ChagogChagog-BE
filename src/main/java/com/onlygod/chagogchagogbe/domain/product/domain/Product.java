@@ -60,7 +60,7 @@ public class Product {
     private Integer aDate;
 
     @NotNull
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(12)")
     private SaleStatus saleStatus;
 
