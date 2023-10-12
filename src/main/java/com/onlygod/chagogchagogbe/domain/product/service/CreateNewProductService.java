@@ -2,6 +2,7 @@ package com.onlygod.chagogchagogbe.domain.product.service;
 
 import com.onlygod.chagogchagogbe.domain.product.domain.IncomingProduct;
 import com.onlygod.chagogchagogbe.domain.product.domain.Product;
+import com.onlygod.chagogchagogbe.domain.product.domain.enums.SaleStatus;
 import com.onlygod.chagogchagogbe.domain.product.domain.repository.ProductRepository;
 import com.onlygod.chagogchagogbe.domain.product.presentation.dto.request.CreateNewProductRequest;
 import com.onlygod.chagogchagogbe.domain.user.domain.User;
@@ -27,6 +28,7 @@ public class CreateNewProductService {
                         .safetyCount(request.getSafetyCount())
                         .incomingPrice(request.getIncomingPrice())
                         .outgoingPrice(request.getOutgoingPrice())
+                        .saleStatus(SaleStatus.ON_SALE)
                         .user(user)
                         .build()
         );

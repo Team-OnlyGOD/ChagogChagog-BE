@@ -1,6 +1,7 @@
 package com.onlygod.chagogchagogbe.domain.product.domain;
 
 import com.onlygod.chagogchagogbe.domain.product.domain.enums.ABCType;
+import com.onlygod.chagogchagogbe.domain.product.domain.enums.SaleStatus;
 import com.onlygod.chagogchagogbe.domain.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -58,6 +59,11 @@ public class Product {
     @Column(columnDefinition = "INT")
     private Integer aDate;
 
+    @NotNull
+    @Enumerated
+    @Column(columnDefinition = "VARCHAR(12)")
+    private SaleStatus saleStatus;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -69,7 +75,7 @@ public class Product {
     private final List<OutgoingProduct> outgoingProducts = new ArrayList<>();
 
     @Builder
-    public Product(String name, Integer count, Integer safetyCount, Long incomingPrice, Long outgoingPrice, ABCType abcType, Integer aDate, Integer bCount, User user) {
+    public Product(String name, Integer count, Integer safetyCount, Long incomingPrice, Long outgoingPrice, ABCType abcType, Integer aDate, Integer bCount, SaleStatus saleStatus, User user) {
         this.name = name;
         this.count = count;
         this.safetyCount = safetyCount;
@@ -77,6 +83,7 @@ public class Product {
         this.outgoingPrice = outgoingPrice;
         this.abcType = abcType;
         this.aDate = aDate;
+        this.saleStatus = saleStatus;
         this.user = user;
     }
 
