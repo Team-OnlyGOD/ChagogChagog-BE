@@ -29,6 +29,7 @@ public class CreateNewProductService {
                         .incomingPrice(request.getIncomingPrice())
                         .outgoingPrice(request.getOutgoingPrice())
                         .saleStatus(SaleStatus.ON_SALE)
+                        .imageUrl(request.getImageUrl())
                         .user(user)
                         .build()
         );

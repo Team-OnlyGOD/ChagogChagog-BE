@@ -24,4 +24,7 @@ public class CreateNewProductRequest {
 
     @NotNull
     private Long outgoingPrice;
+
+    @NotBlank
+    private String imageUrl;
 }

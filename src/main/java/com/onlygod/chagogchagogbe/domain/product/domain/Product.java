@@ -60,6 +60,10 @@ public class Product {
     private Integer aDate;
 
     @NotNull
+    @Column(columnDefinition = "VARCHAR(255)")
+    private String imageUrl;
+
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(12)")
     private SaleStatus saleStatus;
@@ -75,7 +79,7 @@ public class Product {
     private final List<OutgoingProduct> outgoingProducts = new ArrayList<>();
 
     @Builder
-    public Product(String name, Integer count, Integer safetyCount, Long incomingPrice, Long outgoingPrice, ABCType abcType, Integer aDate, Integer bCount, SaleStatus saleStatus, User user) {
+    public Product(String name, Integer count, Integer safetyCount, Long incomingPrice, Long outgoingPrice, ABCType abcType, Integer aDate, Integer bCount, String imageUrl, SaleStatus saleStatus, User user) {
         this.name = name;
         this.count = count;
         this.safetyCount = safetyCount;
@@ -83,6 +87,7 @@ public class Product {
         this.outgoingPrice = outgoingPrice;
         this.abcType = abcType;
         this.aDate = aDate;
+        this.imageUrl = imageUrl;
         this.saleStatus = saleStatus;
         this.user = user;
     }
