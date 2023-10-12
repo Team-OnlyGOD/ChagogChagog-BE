@@ -38,6 +38,7 @@ public class CreateNewProductService {
                 IncomingProduct.builder()
                         .count(request.getCount())
                         .product(product)
+                        .beforeCount(0)
                         .build()
         );
     }
