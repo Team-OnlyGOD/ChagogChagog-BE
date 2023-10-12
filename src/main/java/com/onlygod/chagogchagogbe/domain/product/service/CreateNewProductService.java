@@ -24,7 +24,9 @@ public class CreateNewProductService {
                 Product.builder()
                         .name(request.getName())
                         .count(request.getCount())
-                        .price(request.getPrice())
+                        .safetyCount(request.getSafetyCount())
+                        .incomingPrice(request.getIncomingPrice())
+                        .outgoingPrice(request.getOutgoingPrice())
                         .user(user)
                         .build()
         );

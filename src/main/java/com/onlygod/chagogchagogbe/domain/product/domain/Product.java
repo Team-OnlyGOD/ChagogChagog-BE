@@ -40,8 +40,16 @@ public class Product {
     private Integer count;
 
     @NotNull
+    @Column(columnDefinition = "INT")
+    private Integer safetyCount;
+
+    @NotNull
     @Column(columnDefinition = "BIGINT")
-    private Long price;
+    private Long incomingPrice;
+
+    @NotNull
+    @Column(columnDefinition = "BIGINT")
+    private Long outgoingPrice;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "CHAR(1)")
@@ -49,9 +57,6 @@ public class Product {
 
     @Column(columnDefinition = "INT")
     private Integer aDate;
-
-    @Column(columnDefinition = "INT")
-    private Integer bCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -64,13 +69,14 @@ public class Product {
     private final List<OutgoingProduct> outgoingProducts = new ArrayList<>();
 
     @Builder
-    public Product(String name, Integer count, Long price, ABCType abcType, Integer aDate, Integer bCount, User user) {
+    public Product(String name, Integer count, Integer safetyCount, Long incomingPrice, Long outgoingPrice, ABCType abcType, Integer aDate, Integer bCount, User user) {
         this.name = name;
         this.count = count;
-        this.price = price;
+        this.safetyCount = safetyCount;
+        this.incomingPrice = incomingPrice;
+        this.outgoingPrice = outgoingPrice;
         this.abcType = abcType;
         this.aDate = aDate;
-        this.bCount = bCount;
         this.user = user;
     }
 

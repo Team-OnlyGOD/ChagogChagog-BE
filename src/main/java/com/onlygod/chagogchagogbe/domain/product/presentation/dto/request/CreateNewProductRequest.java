@@ -18,5 +18,11 @@ public class CreateNewProductRequest {
     private Integer count;
 
     @NotNull
-    private Long price;
+    private Integer safetyCount;
+
+    @NotNull
+    private Long incomingPrice;
+
+    @NotNull
+    private Long outgoingPrice;
 }
