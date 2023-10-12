@@ -6,6 +6,7 @@ import com.onlygod.chagogchagogbe.domain.product.presentation.dto.request.Create
 import com.onlygod.chagogchagogbe.domain.product.presentation.dto.request.CreateOutgoingProductRequest;
 import com.onlygod.chagogchagogbe.domain.product.presentation.dto.response.QueryABCTypeProductsResponse;
 import com.onlygod.chagogchagogbe.domain.product.presentation.dto.response.QueryIncomingOutgoingProductsResponse;
+import com.onlygod.chagogchagogbe.domain.product.presentation.dto.response.QueryProductDetailsResponse;
 import com.onlygod.chagogchagogbe.domain.product.presentation.dto.response.QueryProductsResponse;
 import com.onlygod.chagogchagogbe.domain.product.service.ChangeSaleStatusService;
 import com.onlygod.chagogchagogbe.domain.product.service.CreateIncomingProductService;
@@ -14,6 +15,7 @@ import com.onlygod.chagogchagogbe.domain.product.service.CreateOutgoingProductSe
 import com.onlygod.chagogchagogbe.domain.product.service.DivideABCTypeService;
 import com.onlygod.chagogchagogbe.domain.product.service.QueryABCTypeProductsService;
 import com.onlygod.chagogchagogbe.domain.product.service.QueryIncomingOutgoingProductsService;
+import com.onlygod.chagogchagogbe.domain.product.service.QueryProductDetailsService;
 import com.onlygod.chagogchagogbe.domain.product.service.QueryProductsService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +45,7 @@ public class ProductController {
     private final QueryProductsService queryProductsService;
     private final QueryABCTypeProductsService queryABCTypeProductsService;
     private final QueryIncomingOutgoingProductsService queryIncomingOutgoingProductsService;
+    private final QueryProductDetailsService queryProductDetailsService;
 
     @Operation(description = "새로운 재고 추가시 사용하는 api")
     @ResponseStatus(HttpStatus.CREATED)
@@ -107,5 +110,11 @@ public class ProductController {
             @RequestParam(value = "product_id", required = false) Long productId
     ) {
         return queryIncomingOutgoingProductsService.execute(productId);
+    }
+
+    @Operation(description = "제품 상세보기할때 사용하는 겁니다.")
+    @GetMapping("/{product-id}")
+    public QueryProductDetailsResponse queryProductDetails(@PathVariable("product-id") Long productId) {
+        return queryProductDetailsService.execute(productId);
     }
 }
