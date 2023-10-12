@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,6 +33,7 @@ public class Notice {
     private Product product;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(17)")
     private NoticeStatus noticeStatus;
 
