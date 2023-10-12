@@ -1,8 +1,10 @@
 package com.onlygod.chagogchagogbe.domain.product.presentation;
 
+import com.onlygod.chagogchagogbe.domain.product.presentation.dto.request.ChangeSaleStatusRequest;
 import com.onlygod.chagogchagogbe.domain.product.presentation.dto.request.CreateIncomingProductRequest;
 import com.onlygod.chagogchagogbe.domain.product.presentation.dto.request.CreateNewProductRequest;
 import com.onlygod.chagogchagogbe.domain.product.presentation.dto.request.CreateOutgoingProductRequest;
+import com.onlygod.chagogchagogbe.domain.product.service.ChangeSaleStatusService;
 import com.onlygod.chagogchagogbe.domain.product.service.CreateIncomingProductService;
 import com.onlygod.chagogchagogbe.domain.product.service.CreateNewProductService;
 import com.onlygod.chagogchagogbe.domain.product.service.CreateOutgoingProductService;
@@ -28,6 +30,7 @@ public class ProductController {
     private final CreateIncomingProductService createIncomingProductService;
     private final CreateOutgoingProductService createOutgoingProductService;
     private final DivideABCTypeService divideABCTypeService;
+    private final ChangeSaleStatusService changeSaleStatusService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/new")
@@ -57,5 +60,11 @@ public class ProductController {
     @PatchMapping("/abc_type")
     public void divideABCType() {
         divideABCTypeService.execute();
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/sale_status")
+    public void changeSaleStatus(@RequestBody @Valid ChangeSaleStatusRequest request) {
+        changeSaleStatusService.execute(request);
     }
 }

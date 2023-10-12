@@ -96,4 +96,9 @@ public class Product {
         this.count -= count;
         return this;
     }
+
+    public Product changeSaleStatus(SaleStatus saleStatus) {
+        this.saleStatus = saleStatus;
+        return this;
+    }
 }
