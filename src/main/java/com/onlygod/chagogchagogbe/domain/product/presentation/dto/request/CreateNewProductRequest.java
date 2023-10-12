@@ -1,6 +1,5 @@
 package com.onlygod.chagogchagogbe.domain.product.presentation.dto.request;
 
-import com.onlygod.chagogchagogbe.domain.product.domain.enums.ABCType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

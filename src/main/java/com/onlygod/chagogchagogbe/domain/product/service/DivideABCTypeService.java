@@ -1,6 +1,5 @@
 package com.onlygod.chagogchagogbe.domain.product.service;
 
-import com.onlygod.chagogchagogbe.domain.product.domain.IncomingProduct;
 import com.onlygod.chagogchagogbe.domain.product.domain.OutgoingProduct;
 import com.onlygod.chagogchagogbe.domain.product.domain.Product;
 import com.onlygod.chagogchagogbe.domain.product.domain.enums.ABCType;

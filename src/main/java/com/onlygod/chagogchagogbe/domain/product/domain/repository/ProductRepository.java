@@ -4,6 +4,7 @@ import com.onlygod.chagogchagogbe.domain.product.domain.IncomingProduct;
 import com.onlygod.chagogchagogbe.domain.product.domain.OutgoingProduct;
 import com.onlygod.chagogchagogbe.domain.product.domain.Product;
 import com.onlygod.chagogchagogbe.domain.product.domain.enums.ABCType;
+import com.onlygod.chagogchagogbe.domain.product.domain.enums.SaleStatus;
 import com.onlygod.chagogchagogbe.domain.product.exception.ProductNotFoundException;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.onlygod.chagogchagogbe.domain.product.domain.QIncomingProduct.incomingProduct;
 import static com.onlygod.chagogchagogbe.domain.product.domain.QOutgoingProduct.outgoingProduct;
 import static com.onlygod.chagogchagogbe.domain.product.domain.QProduct.product;
 import static com.onlygod.chagogchagogbe.domain.user.domain.QUser.user;
@@ -62,6 +62,14 @@ public class ProductRepository {
         queryFactory
                 .update(product)
                 .set(product.abcType, abcType)
+                .where(product.id.in(productIds))
+                .execute();
+    }
+
+    public void updateSaleStatusByIdIn(SaleStatus saleStatus, List<Long> productIds) {
+        queryFactory
+                .update(product)
+                .set(product.saleStatus, saleStatus)
                 .where(product.id.in(productIds))
                 .execute();
     }
