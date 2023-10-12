@@ -4,6 +4,7 @@ import com.onlygod.chagogchagogbe.domain.product.domain.OutgoingProduct;
 import com.onlygod.chagogchagogbe.domain.product.domain.Product;
 import com.onlygod.chagogchagogbe.domain.product.domain.enums.SaleStatus;
 import com.onlygod.chagogchagogbe.domain.product.domain.repository.ProductRepository;
+import com.onlygod.chagogchagogbe.domain.product.exception.InvalidProductException;
 import com.onlygod.chagogchagogbe.domain.product.exception.ProductCountNotEnoughException;
 import com.onlygod.chagogchagogbe.domain.product.presentation.dto.request.CreateOutgoingProductRequest;
 import com.onlygod.chagogchagogbe.domain.user.domain.User;
@@ -23,6 +24,10 @@ public class CreateOutgoingProductService {
     public void execute(Long productId, CreateOutgoingProductRequest request) {
         User user = userFacade.getCurrentUser();
         Product product = productRepository.queryProductById(productId);
+
+        if (!product.getUser().equals(user)) {
+            throw InvalidProductException.EXCEPTION;
+        }
 
         if ((product.getCount() - request.getCount()) < 0) {
             throw ProductCountNotEnoughException.EXCEPTION;
