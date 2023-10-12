@@ -35,6 +35,7 @@ public class SecurityConfig {
 
                 // users
                 .antMatchers(HttpMethod.POST, "/users/login").permitAll()
+                .antMatchers("/products/**").authenticated()
 
                 .anyRequest().permitAll()
                 .and()
