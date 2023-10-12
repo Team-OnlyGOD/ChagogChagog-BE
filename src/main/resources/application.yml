@@ -43,3 +43,6 @@ logging:
       amazonaws:
         util:
           EC2MetadataUtils: error
+
+openfeign:
+  access-key: ${API_ACCESS_KEY}
